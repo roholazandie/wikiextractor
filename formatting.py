@@ -28,6 +28,7 @@ for root, directories, filenames in os.walk(dataset_dir):
 
 
                     document_text_cleaned = " ".join(paragraphs[1:])# the first item in the list is the title which should be removed
+                    document_text_cleaned = document_text_cleaned.replace("[", "").replace("]", "")
                     doc = nlp(document_text_cleaned)
 
                     for sent in doc.sents:
