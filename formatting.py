@@ -44,5 +44,5 @@ for root, directories, filenames in os.walk(dataset_dir):
                     if has_any_sentence:
                         file_writer.write("\n")
                     else:
-                        print("This one doesnt have any sentence" + paragraphs[0])
+                        print("This one doesnt have any sentence" + os.path.join(root,filename))
 
