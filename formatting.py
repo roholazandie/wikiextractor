@@ -32,12 +32,8 @@ for root, directories, filenames in os.walk(dataset_dir):
 
                     for sent in doc.sents:
                         if len(sent.text)>=min_acceptable_sentence:
-                            if sent.text.rstrip()[-1]!=".":
-                                file_writer.write(sent.text+"."+"\n")
                             file_writer.write(sent.text.rstrip()+"\n")
 
                     print(paragraphs[0] + "done!")
                     file_writer.write("\n")
-
-                break
 
