@@ -10,6 +10,7 @@ dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
 
 nlp = spacy.load("en")
 min_acceptable_sentence = 10
+min_sentences_per_doc = 3
 
 for root, directories, filenames in os.walk(dataset_dir):
     for filename in filenames:
@@ -31,9 +32,10 @@ for root, directories, filenames in os.walk(dataset_dir):
                     document_text_cleaned = document_text_cleaned.replace("[", "").replace("]", "")
                     doc = nlp(document_text_cleaned)
 
-                    for sent in doc.sents:
-                        if len(sent.text)>=min_acceptable_sentence:
-                            file_writer.write(sent.text.rstrip()+"\n")
+                    if len(doc.sents)>min_sentences_per_doc:#skip refer to entries
+                        for sent in doc.sents:
+                            if len(sent.text)>=min_acceptable_sentence:
+                                file_writer.write(sent.text.rstrip()+"\n")
 
                     print(paragraphs[0] + "done!")
                     file_writer.write("\n")
