@@ -9,7 +9,7 @@ import os
 dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
 
 nlp = spacy.load("en")
-min_acceptable_sentence = 5
+min_acceptable_sentence = 10
 
 for root, directories, filenames in os.walk(dataset_dir):
     for filename in filenames:
@@ -25,12 +25,16 @@ for root, directories, filenames in os.walk(dataset_dir):
 
                     paragraphs = [re.sub(r"\[\[(.*?)(\|(.*?))*\]\]", r"\1", paragraph) for paragraph in paragraphs]
 
+
+
                     document_text_cleaned = " ".join(paragraphs[1:])# the first item in the list is the title which should be removed
                     doc = nlp(document_text_cleaned)
 
                     for sent in doc.sents:
                         if len(sent.text)>=min_acceptable_sentence:
-                            file_writer.write(sent.text+"\n")
+                            if sent.text.rstrip()[-1]!=".":
+                                file_writer.write(sent.text+"."+"\n")
+                            file_writer.write(sent.text.rstrip()+"\n")
 
                     print(paragraphs[0] + "done!")
                     file_writer.write("\n")
