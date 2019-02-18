@@ -9,6 +9,7 @@ import os
 dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
 
 nlp = spacy.load("en")
+min_acceptable_sentence = 5
 
 for root, directories, filenames in os.walk(dataset_dir):
     for filename in filenames:
@@ -18,9 +19,9 @@ for root, directories, filenames in os.walk(dataset_dir):
                 for line in file_reader:
                     document = json.loads(line)
                     paragraphs = document["text"].split("\n\n")
-                    paragraphs = [paragraph for paragraph in paragraphs if "[[File" not in paragraph
+                    paragraphs = [paragraph.rstrip() for paragraph in paragraphs if "[[File" not in paragraph
                                    and "[[Category" not in paragraph
-                                   and paragraph]
+                                   and len(paragraph)!=0]
 
                     paragraphs = [re.sub(r"\[\[(.*?)(\|(.*?))*\]\]", r"\1", paragraph) for paragraph in paragraphs]
 
@@ -28,7 +29,8 @@ for root, directories, filenames in os.walk(dataset_dir):
                     doc = nlp(document_text_cleaned)
 
                     for sent in doc.sents:
-                        file_writer.write(sent.text+"\n")
+                        if len(sent.text)>=min_acceptable_sentence:
+                            file_writer.write(sent.text+"\n")
 
                     print(paragraphs[0] + "done!")
                     file_writer.write("\n")
