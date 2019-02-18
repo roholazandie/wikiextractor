@@ -31,11 +31,11 @@ for root, directories, filenames in os.walk(dataset_dir):
                     document_text_cleaned = " ".join(paragraphs[1:])# the first item in the list is the title which should be removed
                     document_text_cleaned = document_text_cleaned.replace("[", "").replace("]", "")
                     doc = nlp(document_text_cleaned)
-
-                    if len(doc.sents)>min_sentences_per_doc:#skip refer to entries
-                        for sent in doc.sents:
-                            if len(sent.text)>=min_acceptable_sentence:
-                                file_writer.write(sent.text.rstrip()+"\n")
+                    sentences = [sent.text for sent in doc.sents]
+                    if len(sentences) > min_sentences_per_doc:#skip refer to entries
+                        for sent in sentences:
+                            if len(sent) > min_acceptable_sentence:
+                                file_writer.write(sent.rstrip()+"\n")
 
                     print(paragraphs[0] + "done!")
                     file_writer.write("\n")
