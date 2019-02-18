@@ -18,6 +18,7 @@ for root, directories, filenames in os.walk(dataset_dir):
         with open("cleaned_wiki.txt", 'w') as file_writer:
             with open(os.path.join(root,filename)) as file_reader:
                 for line in file_reader:
+                    has_any_sentence = False
                     document = json.loads(line)
                     paragraphs = document["text"].split("\n\n")
                     paragraphs = [paragraph.rstrip() for paragraph in paragraphs if "[[File" not in paragraph
@@ -35,8 +36,13 @@ for root, directories, filenames in os.walk(dataset_dir):
                     if len(sentences) > min_sentences_per_doc:#skip refer to entries
                         for sent in sentences:
                             if len(sent) > min_acceptable_sentence:
-                                file_writer.write(sent.rstrip()+"\n")
+                                if sent.strip():
+                                    file_writer.write(sent.rstrip()+"\n")
+                                    has_any_sentence = True
 
                     print(paragraphs[0] + "done!")
-                    file_writer.write("\n")
+                    if has_any_sentence:
+                        file_writer.write("\n")
+                    else:
+                        print("This one doesnt have any sentence" + paragraphs[0])
 
