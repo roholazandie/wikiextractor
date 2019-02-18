@@ -3,10 +3,15 @@ import spacy
 import re
 from os import listdir
 from os.path import isfile, join
+from glob import glob
+import os
 
-dataset_dir = ""
-onlyfiles = [f for f in listdir(dataset_dir) if isfile(join(dataset_dir, f))]
-
+dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
+result = [x for x in os.walk(dataset_dir)]
+print(result)
+#dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
+#onlyfiles = [f for f in listdir(dataset_dir) if isfile(join(dataset_dir, f))]
+#print(onlyfiles)
 
 # nlp = spacy.load("en")
 #
