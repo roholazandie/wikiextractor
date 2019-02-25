@@ -12,11 +12,11 @@ nlp = spacy.load("en")
 min_acceptable_sentence = 10
 min_sentences_per_doc = 3
 
-for root, directories, filenames in os.walk(dataset_dir):
-    for filename in filenames:
 
-        with open("cleaned_wiki.txt", 'w') as file_writer:
-            with open(os.path.join(root,filename)) as file_reader:
+with open("cleaned_wiki.txt", 'w') as file_writer:
+    for root, directories, filenames in os.walk(dataset_dir):
+        for filename in filenames:
+            with open(os.path.join(root, filename)) as file_reader:
                 for line in file_reader:
                     has_any_sentence = False
                     document = json.loads(line)
@@ -26,8 +26,6 @@ for root, directories, filenames in os.walk(dataset_dir):
                                    and len(paragraph)!=0]
 
                     paragraphs = [re.sub(r"\[\[(.*?)(\|(.*?))*\]\]", r"\1", paragraph) for paragraph in paragraphs]
-
-
 
                     document_text_cleaned = " ".join(paragraphs[1:])# the first item in the list is the title which should be removed
                     document_text_cleaned = document_text_cleaned.replace("[", "").replace("]", "")
@@ -44,5 +42,5 @@ for root, directories, filenames in os.walk(dataset_dir):
                     if has_any_sentence:
                         file_writer.write("\n")
                     else:
-                        print("This one doesnt have any sentence" + os.path.join(root,filename))
+                        print("This one doesnt have any sentence " + os.path.join(root,filename))
 
