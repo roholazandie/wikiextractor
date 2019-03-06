@@ -6,14 +6,14 @@ from os.path import isfile, join
 from glob import glob
 import os
 
-dataset_dir = "/home/rohola/codes/bert/dataset/output_data/"
+dataset_dir = "/media/data/rohola_data/dataset/output_data/"
 
 nlp = spacy.load("en")
 min_acceptable_sentence = 10
 min_sentences_per_doc = 3
 
 
-with open("cleaned_wiki.txt", 'w') as file_writer:
+with open("/media/data/rohola_data/cleaned_wiki.txt", 'w') as file_writer:
     for root, directories, filenames in os.walk(dataset_dir):
         for filename in filenames:
             with open(os.path.join(root, filename)) as file_reader:
