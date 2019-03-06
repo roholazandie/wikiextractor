@@ -5,7 +5,7 @@
 num_texts = 0
 with open("/media/data/rohola_data/cleaned_wiki.txt") as file_reader:
     for line in file_reader:
-        if not line:
+        if not line.rstrip():
             num_texts +=1
 
 print(num_texts)
